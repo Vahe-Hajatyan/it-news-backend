@@ -23,9 +23,7 @@ import { handleError } from "./utils/handleError.js";
 import cors from "cors";
 
 mongoose
-  .connect(
-    "mongodb+srv://vahe:janvahejan@cluster0.ib1ra.mongodb.net/blog?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("DB ok"))
   .catch((err) => console.log("DB error " + err));
 
@@ -42,7 +40,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const PORT = 4444;
 app.use(cors());
 app.use(express.json());
 app.use("/upload", express.static("uploads"));
@@ -66,7 +63,7 @@ app.patch("/posts/:id", checkAuth, postCreateValidator, handleError, update);
 app.post("/posts", checkAuth, postCreateValidator, handleError, create);
 app.post("/comment/:id", setComment);
 
-app.listen(PORT, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
   if (err) {
     return console.log(err);
   }
