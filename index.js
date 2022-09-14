@@ -31,6 +31,7 @@ mongoose
   .catch((err) => console.log("DB error " + err));
 
 const app = express();
+const port = process.env.PORT ?? 4444;
 
 const storage = multer.diskStorage({
   destination: (_, __, cb) => {
@@ -69,7 +70,7 @@ app.patch("/posts/:id", checkAuth, postCreateValidator, handleError, update);
 app.post("/posts", checkAuth, postCreateValidator, handleError, create);
 app.post("/comment/:id", setComment);
 
-app.listen(process.env.PORT || 4444, (err) => {
+app.listen(port, (err) => {
   if (err) {
     return console.log(err);
   }
