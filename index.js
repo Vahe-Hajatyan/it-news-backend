@@ -35,10 +35,10 @@ const port = process.env.PORT ?? 4444;
 
 const storage = multer.diskStorage({
   destination: (_, __, cb) => {
-    if (!fs.existsSync("uploads")) {
-      fs.mkdirSync("uploads");
+    if (!fs.existsSync("upload")) {
+      fs.mkdirSync("upload");
     }
-    cb(null, "uploads");
+    cb(null, "upload");
   },
   filename: (_, file, cb) => {
     cb(null, file.originalname);
@@ -49,7 +49,7 @@ const upload = multer({ storage });
 
 app.use(cors());
 app.use(express.json());
-app.use("/upload", express.static("uploads"));
+app.use("/upload", express.static("upload"));
 
 app.post("/auth/login", loginValidator, handleError, login);
 app.post("/auth/register", registerValidator, handleError, register);
